@@ -38,7 +38,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Nguyen Van An\",\n    \"gender\": \"male\",\n    \"email\": \"vanlang12345678@example.com\",\n    \"status\": \"active\"\n}",
+              "raw": "{\n    \"name\": \"Nguyen Van An\",\n    \"gender\": \"male\",\n    \"email\": \"dhfhofe1ew@example.com\",\n    \"status\": \"active\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -264,6 +264,58 @@
           "response": []
         },
         {
+          "name": "New Request",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst data = pm.response.json();\r\n\r\npm.environment.set(\"userId\", data.id);\r\n\r\nconsole.log(\"User ID:\", data.id);\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "d8fbb58226bd7e70c7ba57a93b187ca043ea4fab6c8da3f087b0be43ba015ac1",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Nguyen Van An\",\r\n    \"gender\": \"male\",\r\n    \"email\": \"dhfhofe1ew@example.com\",\r\n    \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Trùng Email",
           "event": [
             {
@@ -291,7 +343,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Nguyen Van An\",\r\n    \"gender\": \"male\",\r\n    \"email\": \"vanlang12345678@example.com\",\r\n    \"status\": \"active\"\r\n}",
+              "raw": "{\n    \"name\": \"Nguyen Van An\",\n    \"gender\": \"male\",\n    \"email\": \"dhfhofe1ew@example.com\",\n    \"status\": \"active\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
