@@ -26,7 +26,7 @@ jobs:
         env:
           GOREST_TOKEN: ${{ secrets.GOREST_TOKEN }}
         run: |
-          newman run "2474802010158_TranQuanhHy_GoRest.postman_collection.json" \
+          newman run "2474802010158_TranQuanHy_GoRest.json" \
             -d users.csv \
             --env-var "token=$GOREST_TOKEN"
 
