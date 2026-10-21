@@ -1,0 +1,30 @@
+name: Shift-Right API Monitoring
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Newman CLI
+        run: npm install -g newman
+
+      - name: Run API Monitor & Performance Check
+        env:
+          GOREST_TOKEN: ${{ secrets.GOREST_TOKEN }}
+        run: |
+          newman run 2474802010158_TranQuanHy_GoRest.postman_collection.json \
+            -e 2474802010158_TranQuanHy_GoRest_Env.postman_environment.json \
+            --env-var "token=$GOREST_TOKEN"
