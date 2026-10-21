@@ -1,28 +1,32 @@
-name: GoRest API CI Pipeline
+
+name: API Tests - Newman
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  api-testing:
+  api-tests:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout source code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install Newman
         run: npm install -g newman
 
-      - name: Run Newman with Data-Driven Testing
+      - name: Run Postman Collection
+        env:
+          GOREST_TOKEN: ${{ secrets.GOREST_TOKEN }}
         run: |
-          newman run 2474802010158_TranQuanHy_GoRest.json \
-            -e 2474802010158_TranQuanHy_GoRest_Env.json \
+          newman run "2474802010158_TranQuanhHy_GoRest.postman_collection.json" \
             -d users.csv \
-            --env-var "token=${{ secrets.GOREST_TOKEN }}"
+            --env-var "token=$GOREST_TOKEN"
+
