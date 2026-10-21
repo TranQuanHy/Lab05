@@ -3,8 +3,7 @@
     "_postman_id": "05de87c2-e9da-4b0b-ba87-f024c7c93b6f",
     "name": "2474802010158_TranQuanHy_GoRest",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "59055460",
-    "_collection_link": "https://go.postman.co/collection/59055460-05de87c2-e9da-4b0b-ba87-f024c7c93b6f?source=collection_link"
+    "_exporter_id": "59055460"
   },
   "item": [
     {
@@ -18,27 +17,23 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "\r\npm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst data = pm.response.json();\r\n\r\npm.environment.set(\"userId\", data.id);\r\n\r\nconsole.log(\"User ID:\", data.id);\r\n"
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "const resData = pm.response.json();",
+                  "if (resData.id) {",
+                  "    pm.environment.set(\"userId\", resData.id);",
+                  "}"
                 ]
               }
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "d8fbb58226bd7e70c7ba57a93b187ca043ea4fab6c8da3f087b0be43ba015ac1",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Nguyen Van An\",\n    \"gender\": \"male\",\n    \"email\": \"dhfhofe1ew@example.com\",\n    \"status\": \"active\"\n}",
+              "raw": "{\n    \"name\": \"{{name}}\",\n    \"gender\": \"{{gender}}\",\n    \"email\": \"{{email}}\",\n    \"status\": \"{{status}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -70,22 +65,18 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Correct user is returned\", function () {\r\n    const data = pm.response.json();\r\n\r\n    pm.expect(String(data.id))\r\n        .to.eql(String(pm.environment.get(\"userId\")));\r\n});\r\n"
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Correct user is returned\", function () {",
+                  "    const getData = pm.response.json();",
+                  "    pm.expect(String(getData.id)).to.eql(String(pm.environment.get(\"userId\")));",
+                  "});"
                 ]
               }
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "d8fbb58226bd7e70c7ba57a93b187ca043ea4fab6c8da3f087b0be43ba015ac1",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "GET",
             "header": [],
             "url": {
@@ -114,27 +105,22 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"User status is inactive\", function () {\r\n    pm.expect(pm.response.json().status)\r\n        .to.eql(\"inactive\");\r\n});"
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"User status is inactive\", function () {",
+                  "    pm.expect(pm.response.json().status).to.eql(\"inactive\");",
+                  "});"
                 ]
               }
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "d8fbb58226bd7e70c7ba57a93b187ca043ea4fab6c8da3f087b0be43ba015ac1",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "PATCH",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"status\": \"inactive\"\r\n}",
+              "raw": "{\n  \"status\": \"inactive\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -167,22 +153,14 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});"
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
                 ]
               }
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "d8fbb58226bd7e70c7ba57a93b187ca043ea4fab6c8da3f087b0be43ba015ac1",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "DELETE",
             "header": [],
             "url": {
@@ -202,18 +180,44 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Xóa User (Check 404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Deleted user is not found\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/{{userId}}",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
         }
-      ],
-      "auth": {
-        "type": "bearer",
-        "bearer": [
-          {
-            "key": "token",
-            "value": "d8fbb58226bd7e70c7ba57a93b187ca043ea4fab6c8da3f087b0be43ba015ac1",
-            "type": "string"
-          }
-        ]
-      }
+      ]
     },
     {
       "name": "Negative_Cases",
@@ -226,7 +230,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Request without token is rejected\", function () {\r\n    pm.expect([401, 403]).to.include(pm.response.code);\r\n});"
+                  "pm.test(\"Request without token is rejected\", function () {",
+                  "    pm.expect([401, 403]).to.include(pm.response.code);",
+                  "});"
                 ]
               }
             }
@@ -239,59 +245,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Test Unauthorized\",\r\n  \"gender\": \"male\",\r\n  \"email\": \"unauthorized.lab05@example.com\",\r\n  \"status\": \"active\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "https://gorest.co.in/public/v2/users",
-              "protocol": "https",
-              "host": [
-                "gorest",
-                "co",
-                "in"
-              ],
-              "path": [
-                "public",
-                "v2",
-                "users"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst data = pm.response.json();\r\n\r\npm.environment.set(\"userId\", data.id);\r\n\r\nconsole.log(\"User ID:\", data.id);\r\n"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "d8fbb58226bd7e70c7ba57a93b187ca043ea4fab6c8da3f087b0be43ba015ac1",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Nguyen Van An\",\r\n    \"gender\": \"male\",\r\n    \"email\": \"dhfhofe1ew@example.com\",\r\n    \"status\": \"active\"\r\n}",
+              "raw": "{\n  \"name\": \"Test Unauthorized\",\n  \"gender\": \"male\",\n  \"email\": \"unauthorized.lab05@example.com\",\n  \"status\": \"active\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -323,27 +277,19 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Duplicate email is rejected\", function () {\r\n    pm.response.to.have.status(422)\r\n});"
+                  "pm.test(\"Duplicate email is rejected\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});"
                 ]
               }
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Nguyen Van An\",\n    \"gender\": \"male\",\n    \"email\": \"dhfhofe1ew@example.com\",\n    \"status\": \"active\"\n}",
+              "raw": "{\n    \"name\": \"Nguyen Van An\",\n    \"gender\": \"male\",\n    \"email\": \"hy.tranquan1@example.com\",\n    \"status\": \"active\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -366,42 +312,18 @@
             }
           },
           "response": []
-        },
-        {
-          "name": "Xóa User",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Deleted user is not found\", function () {\r\n    pm.response.to.have.status(404);\r\n});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://gorest.co.in/public/v2/users/{{userId}}",
-              "protocol": "https",
-              "host": [
-                "gorest",
-                "co",
-                "in"
-              ],
-              "path": [
-                "public",
-                "v2",
-                "users",
-                "{{userId}}"
-              ]
-            }
-          },
-          "response": []
         }
       ]
     }
-  ]
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  }
 }
